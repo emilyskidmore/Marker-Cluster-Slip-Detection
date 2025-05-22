@@ -1,0 +1,9 @@
+#Testing push/pull / VS code link
+a = 3
+b = 4
+print(a+b)
+
+# Testing Pull
+c = 1 
+d = 5 
+print (c*d)
