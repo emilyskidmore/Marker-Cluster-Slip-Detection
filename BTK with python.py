@@ -27,8 +27,8 @@ print(f"Number of frames - {no_frames}")
 no_data_points = btk.btkGetPointNumber(Read_Data)
 print(no_data_points)
 frame_freq = btk.btkGetPointFrequency(Read_Data)
-print(f"Frame rate - {frame_freq}")
+print(f"Point frequency - {frame_freq}")
 Duration = no_frames/ frame_freq
 print(f"Run duration - {Duration} seconds")
-pointsInfo = btk.btkGetPoints(Read_Data)
-pointsInfo
+
+
