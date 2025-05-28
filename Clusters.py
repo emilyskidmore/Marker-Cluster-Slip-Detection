@@ -1,5 +1,5 @@
-import moveck_bridge_btk as btk
-
+#import moveck_bridge_btk as btk
+'''
 try:
     Read_Data = btk.btkReadAcquisition(r'C:\Users\kwb24166\OneDrive - University of Strathclyde\Documents\Project\Python\Data\run.c3d')
     print("Data loaded successfully")
@@ -15,3 +15,4 @@ print(point1)
 
 #print(btk.__file__)
 
+'''

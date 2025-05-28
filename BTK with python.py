@@ -6,16 +6,19 @@ import moveck_bridge_btk as btk
 # Check the available functions and classes int he btk package
 print(dir(btk))
 
+
 try:
-    Read_Data = btk.btkReadAcquisition(r'C:\Users\kwb24166\OneDrive - University of Strathclyde\Documents\Project\Python\Data\run.c3d')
+    Read_Data = btk.btkReadAcquisition(r'C:\Users\milli\OneDrive - University of Strathclyde\Documents\Project\Python\Data')
     print("Data loaded successfully")
     print(Read_Data)
 except Exception as e:
     print("error:",e)
 
+
+
 Marker_Data = btk.btkGetMarkers(Read_Data)
 print("Markers", Marker_Data)
-print(Marker_Data, [1,1])
+#print(Marker_Data, [1,1])
 
 time_0 = btk.btkGetFirstFrame(Read_Data)
 print(time_0)
