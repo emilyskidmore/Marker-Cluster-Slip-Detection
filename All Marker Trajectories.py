@@ -1,9 +1,9 @@
 marker_data = c3d['data']['points']  # shape: (4, N_markers, N_frames)
-labels = c3d['parameters']['POINT']['LABELS']['value']
-print(labels)
+markers = c3d['parameters']['POINT']['LABELS']['value']
+print(markers)
 
-for i in labels:
-    marker_index = labels.index(i)
+for i in markers:
+    marker_index = markers.index(i)
     x = marker_data[0, marker_index, :]
     y = marker_data[1, marker_index, :]
     z = marker_data[2, marker_index, :]
@@ -15,7 +15,8 @@ for i in labels:
     ax.set_zlabel('Z')
     ax.set_title(f'3D Marker Trajectory - {i}')
     ax.legend()
-    plt.show()
+
+plt.show()
 
 
     
