@@ -45,5 +45,6 @@ for i in range(no_frames):
 
 # Turning the list into a data frame
 df = pd.DataFrame.from_records(dataframe)
+# df = df.fillna(0) #Check if this works
 # Turning the list into a csv file
 df.to_csv("Data.csv")

@@ -24,3 +24,23 @@ axs[2].plot(x_axis, y_z)
 axs[2].set_title('z coordinate trajectory')
 
 plt.show()
+
+
+# 3D plot
+from mpl_toolkits.mplot3d import axes3d
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection = '3d')
+# Get the test data
+x_axis = X['Frame']
+y_x = X['X']
+y_y = Y['Y']
+y_z = Z['Z']
+
+ax.plot(y_x, y_y,y_z, label = 'Marker Trajectory', color = 'orange')
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Z')
+ax.set_title('3D Marker Trajectory')
+ax.legend()
+plt.show()
