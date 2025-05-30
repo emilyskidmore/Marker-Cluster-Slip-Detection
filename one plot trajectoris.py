@@ -12,7 +12,7 @@ cols = 7
 rows = 4
 
 # Create a figure with subplots
-fig = plt.figure(figsize=(30,30))  
+fig = plt.figure(figsize=(20,20))  
 
 for i, marker in enumerate(markers):
     marker_index = markers.index(marker)
@@ -23,9 +23,11 @@ for i, marker in enumerate(markers):
     ax = fig.add_subplot(rows, cols,i + 1, projection='3d')
     ax.plot(x, y, z, label='Trajectory', color='orange')
     ax.set_title(f'{marker}', fontsize=7)
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.set_zlabel('Z')
+    ax.set_xlabel('X', fontsize = 5 )
+    ax.set_ylabel('Y', fontsize = 5)
+    ax.set_zlabel('Z', fontsize = 5)
+
 
 fig.tight_layout()
+plt.savefig('All marker trajectories')
 plt.show()
