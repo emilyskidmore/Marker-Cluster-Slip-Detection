@@ -1,3 +1,7 @@
+'''
+Taking c3d data and creating a dataframe from it which is then exported into a csv file which can be opened in excel
+'''
+
 import ezc3d
 import pandas as pd
 import numpy as np
@@ -45,6 +49,7 @@ for i in range(no_frames):
 
 # Turning the list into a data frame
 df = pd.DataFrame.from_records(dataframe)
-# df = df.fillna(0) #Check if this works
+# Turning any empty entries into 0s
+df = df.fillna(0) 
 # Turning the list into a csv file
 df.to_csv("Data.csv")

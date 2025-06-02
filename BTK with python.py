@@ -6,7 +6,6 @@ import moveck_bridge_btk as btk
 # Check the available functions and classes int he btk package
 print(dir(btk))
 
-
 try:
     Read_Data = btk.btkReadAcquisition(r'C:\Users\milli\OneDrive - University of Strathclyde\Documents\Project\Python\Data')
     print("Data loaded successfully")
