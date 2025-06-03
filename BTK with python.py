@@ -3,10 +3,7 @@
 #Importing the BTK package
 import moveck_bridge_btk as btk
 import numpy as np
-<<<<<<< HEAD
 import sys
-=======
->>>>>>> 66e03ea3bafac6bde23be402466ac1a0cb90f331
 
 # Check the available functions and classes int he btk package
 print(dir(btk))
