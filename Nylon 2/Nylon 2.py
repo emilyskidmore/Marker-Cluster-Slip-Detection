@@ -59,62 +59,62 @@ df = pd.DataFrame.from_records(dataframe)
 # Turning the list into a csv file
 df.to_csv("Nylon 2/ Data- Nylon2.csv", index=False)
 
-
 # ============================================
-# 3D trajectories of all markers - first Method using the dataframe 
+# 3D trajectories of all markers - second Method using the c3d data directly
 # ============================================
-print(df)
-df_markers = df['Marker']
-print(df_markers)
 
-# dimension of the figure given theres 12 markers
-cols = 3
+marker_data = c3d['data']['points']  # shape: (4, N_markers, N_frames)
+markers = c3d['parameters']['POINT']['LABELS']['value']
+
+# dimension of the figure given theres 28 markers
+cols = 3  
 rows = 4
 
 # Create a figure with subplots
 fig = plt.figure(figsize=(20,20))  
 
-for i, marker in enumerate (df_markers):
-    i_data = df[df['Marker'] == marker]
-    x_data = i_data['X']
-    y_data = i_data['Y']
-    z_data = i_data['Z']
-    
+for i, marker in enumerate(markers):
+    marker_index = markers.index(marker)
+    x = marker_data[0, marker_index, :]
+    y = marker_data[1, marker_index, :]
+    z = marker_data[2, marker_index, :]
+
     ax = fig.add_subplot(rows, cols,i + 1, projection='3d')
-    ax.plot(x_data, y_data, z_data, label='Trajectory', color='orange')
+    ax.plot(x, y, z, label='Trajectory', color='orange')
     ax.set_title(f'{marker}', fontsize=7)
     ax.set_xlabel('X', fontsize = 5 )
     ax.set_ylabel('Y', fontsize = 5)
     ax.set_zlabel('Z', fontsize = 5)
 
-
 fig.tight_layout()
-plt.savefig('Marker trajectories - df  Nylon')
+plt.savefig('Nylon 2/Marker trajectories - c3d Nylon.png')
 plt.show()
 
 # ============================================
 # Plotting the x,y,z coordinates against frames on 3 subplots for one marker, using the dataframe
 # ============================================
- 
 
-for i, marker in enumerate(df_markers):
-    i_data = df[df['Marker'] == marker]
-    x_axis = i_data['Frame']
-    x_data = i_data['X']
-    y_data = i_data['Y']
-    z_data = i_data['Z']
+markers = df['Marker'].unique() 
 
-    fig, axs = plt.subplots(nrows = 3, ncols=1, figsize=(10, 7.5), layout='constrained')
 
-    axs[0].plot(x_axis, x_data)
+for i in markers:
+    Marker_data = df[df['Marker'] == i]
+    x = Marker_data['X']
+    y = Marker_data['Y']
+    z = Marker_data['Z']
+    frames = Marker_data['Frame']
+
+    fig, axs = plt.subplots(nrows = 3, ncols=1, figsize=(10, 7.5), sharex=True)
+
+    axs[0].plot(frames, x)
     axs[0].set_title('x-coordinate trajectory')
-
-    axs[1].plot(x_axis, y_data)
+    axs[1].plot(frames, y)
     axs[1].set_title('y-coordinate trajectory')
-
-    axs[2].plot(x_axis, z_data)
+    axs[2].plot(frames, z)
     axs[2].set_title('z coordinate trajectory') 
+    axs[2].set_xlabel('Frame')
     
-    plt.suptitle(f'Trajectory of Marker: {marker}', fontsize=12)
-    plt.show()
+    plt.suptitle(f'Trajectory of Marker: {i}', fontsize=12)
+    plt.tight_layout()
+plt.show()
 
