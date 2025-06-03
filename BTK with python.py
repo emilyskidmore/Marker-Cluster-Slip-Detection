@@ -3,7 +3,10 @@
 #Importing the BTK package
 import moveck_bridge_btk as btk
 import numpy as np
+<<<<<<< HEAD
 import sys
+=======
+>>>>>>> 66e03ea3bafac6bde23be402466ac1a0cb90f331
 
 # Check the available functions and classes int he btk package
 print(dir(btk))
@@ -18,6 +21,15 @@ print(type(Marker_Data))
 print(type(Marker_Data[0]))
 print(Marker_Data)
 
+<<<<<<< HEAD
+=======
+Marker_Data = btk.btkGetMarkers(data)
+print({len(Marker_Data)})
+print(type(Marker_Data))
+print(type(Marker_Data[0]))
+print(Marker_Data)
+
+>>>>>>> 66e03ea3bafac6bde23be402466ac1a0cb90f331
 time_0 = btk.btkGetFirstFrame(data)
 print(time_0)
 time_t = btk.btkGetLastFrame(data)
