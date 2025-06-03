@@ -1,5 +1,6 @@
 '''
-Taking Nylon2.c3d c3d data and creating a dataframe from it which is then exported into a csv file which can be opened in excel
+Taking Nylon2.c3d c3d data and creating a dataframe from it which is then exported into a csv file which can be opened in excel.
+Plotting the marker trajectories for the 12 markers in the Nylon2 data frame.
 '''
 
 import ezc3d
@@ -8,6 +9,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import moveck_bridge_btk as btk
 
+# ============================================
+# Creating Dataframe  
+# ============================================
 
 # Load C3D
 c3d = ezc3d.c3d('Nylon2.c3d')
@@ -54,3 +58,36 @@ df = pd.DataFrame.from_records(dataframe)
 # df = df.fillna(0) 
 # Turning the list into a csv file
 df.to_csv("Data - Nylon2.csv")
+
+
+# ============================================
+# 3D trajectories of all markers - first Method using the dataframe 
+# ============================================
+
+df_markers = df['Marker']
+print(df_markers)
+
+# dimension of the figure given theres 12 markers
+cols = 3
+rows = 4
+
+# Create a figure with subplots
+fig = plt.figure(figsize=(20,20))  
+
+for i, marker in enumerate (df_markers):
+    i_data = df[df['Marker'] == marker]
+    x_data = i_data['X']
+    y_data = i_data['Y']
+    z_data = i_data['Z']
+    
+    ax = fig.add_subplot(rows, cols,i + 1, projection='3d')
+    ax.plot(x_data, y_data, z_data, label='Trajectory', color='orange')
+    ax.set_title(f'{marker}', fontsize=7)
+    ax.set_xlabel('X', fontsize = 5 )
+    ax.set_ylabel('Y', fontsize = 5)
+    ax.set_zlabel('Z', fontsize = 5)
+
+
+fig.tight_layout()
+plt.savefig('Marker trajectories - df  Nylon')
+plt.show()
