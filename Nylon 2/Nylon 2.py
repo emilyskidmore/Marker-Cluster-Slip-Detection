@@ -14,7 +14,7 @@ import moveck_bridge_btk as btk
 # ============================================
 
 # Load C3D
-c3d = ezc3d.c3d('Nylon2.c3d')
+c3d = ezc3d.c3d(r'C:\Users\milli\OneDrive - University of Strathclyde\Documents\Project\Python\Marker-Cluster-Slip-Detection\Nylon 2\Nylon2.c3d')
 
 # Extract marker data in the form of a numpy array that contains the marker coordinates
 # The following extracts the marker positions ['points'] from the numerical data ['data'] of the file
@@ -57,13 +57,13 @@ df = pd.DataFrame.from_records(dataframe)
 # Turning any empty entries into 0s - not necessary the only entries that have blanks are labels 10 and 11 which are not required.
 # df = df.fillna(0) 
 # Turning the list into a csv file
-df.to_csv("Data - Nylon2.csv")
+df.to_csv("Nylon 2/ Data- Nylon2.csv", index=False)
 
 
 # ============================================
 # 3D trajectories of all markers - first Method using the dataframe 
 # ============================================
-
+print(df)
 df_markers = df['Marker']
 print(df_markers)
 
@@ -91,3 +91,30 @@ for i, marker in enumerate (df_markers):
 fig.tight_layout()
 plt.savefig('Marker trajectories - df  Nylon')
 plt.show()
+
+# ============================================
+# Plotting the x,y,z coordinates against frames on 3 subplots for one marker, using the dataframe
+# ============================================
+ 
+
+for i, marker in enumerate(df_markers):
+    i_data = df[df['Marker'] == marker]
+    x_axis = i_data['Frame']
+    x_data = i_data['X']
+    y_data = i_data['Y']
+    z_data = i_data['Z']
+
+    fig, axs = plt.subplots(nrows = 3, ncols=1, figsize=(10, 7.5), layout='constrained')
+
+    axs[0].plot(x_axis, x_data)
+    axs[0].set_title('x-coordinate trajectory')
+
+    axs[1].plot(x_axis, y_data)
+    axs[1].set_title('y-coordinate trajectory')
+
+    axs[2].plot(x_axis, z_data)
+    axs[2].set_title('z coordinate trajectory') 
+    
+    plt.suptitle(f'Trajectory of Marker: {marker}', fontsize=12)
+    plt.show()
+

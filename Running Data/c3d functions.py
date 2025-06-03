@@ -1,3 +1,12 @@
+import ezc3d
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import moveck_bridge_btk as btk
+
+# Load C3D
+c3d = ezc3d.c3d('run.c3d')
+
 #See highets level gorups
 print(c3d.keys())  
 
