@@ -48,6 +48,7 @@ ts.data
 # STEP 1 - Define x axis
 # Arbitarily choose marker RThiClust1 as the origin
 origin = marker_data[0,5,:]
+origin
 # Calculating distance between RThiClust1 and RThiClust2
 marker1_2 = marker_data[0,4,:] - origin
 # Magnitude of vector RThiClust1 to RThiClust2 = marker1_2
@@ -82,5 +83,17 @@ mag_y
 
 # STEP 5 - construct the orientation matrix
 R = np.array((x_axis, y_axis, z_axis))
-R = np.transpose(R)
 
+
+# From kinetics toolkit a transform always has the form 4x4 where the top left 3x3 is the rotation matrix 
+# and the last column is the position of the local coordinate system's origin,
+# [R11 R12 R13 Ox]
+# [R21 R22 R23 Oy]
+# [R31 R32 R33 Oz]
+# [ 0   0   0   1]
+T = np.array((x_axis, y_axis, z_axis, origin))
+T = np.transpose(T)
+T = np.append(T, extra)
+T
+
+#ktk.geometry.create_transform_series(x: x_axis | None)
