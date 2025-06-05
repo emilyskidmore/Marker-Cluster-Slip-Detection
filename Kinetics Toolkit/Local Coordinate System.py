@@ -93,7 +93,8 @@ R = np.array((x_axis, y_axis, z_axis))
 # [ 0   0   0   1]
 T = np.array((x_axis, y_axis, z_axis, origin))
 T = np.transpose(T)
-T = np.append(T, extra)
+extra_row = [0,0,0,1]
+T = np.append(T, extra_row)
 T
 
 #ktk.geometry.create_transform_series(x: x_axis | None)
