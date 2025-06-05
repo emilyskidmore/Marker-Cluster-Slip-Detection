@@ -20,7 +20,9 @@ marker_data = marker_data.transpose(2,1,0)
 marker_data
 Marker_labels = Nylon2['parameters']['POINT']['LABELS']['value']
 
-
+# ===========================
+# Creating Time Series
+# ===========================
 
 no_frames = marker_data.shape[0]
 freq = Nylon2['header']['points']['frame_rate']
@@ -37,4 +39,48 @@ ts = ts.add_data("RThiClust1", marker_data[:,5,:])
 ts = ts.add_data("RThiClust2", marker_data[:,4,:])
 ts = ts.add_data("RThiClust3", marker_data[:,6,:])
 ts.data
+
+ 
+# ===========================
+# Creating local Coordinate system
+# ===========================
+
+# STEP 1 - Define x axis
+# Arbitarily choose marker RThiClust1 as the origin
+origin = marker_data[0,5,:]
+# Calculating distance between RThiClust1 and RThiClust2
+marker1_2 = marker_data[0,4,:] - origin
+# Magnitude of vector RThiClust1 to RThiClust2 = marker1_2
+distance1_2 = np.linalg.norm(marker1_2)
+distance1_2 
+
+# Calculating distance between RThiClust1 and RThiClust3
+marker1_3 = marker_data[0,6,:] - origin
+distance1_3 = np.linalg.norm(marker1_3)
+distance1_3
+# Distance from 1 to 2 is smaller than the distance from 1 to 3, so choose the vector 1 to 3 to be the x axis
+x_axis =  marker1_3/np.linalg.norm(marker1_3)
+x_axis 
+mag_x = np.linalg.norm(x_axis)
+mag_x
+# STEP 2 - Define a support axis to define the plane orientation 
+y_temp = marker1_2 / np.linalg.norm(marker1_2)
+
+# STEP 3 - Define a second axis perpendicular to the plane, this ensures the z axis is perepndicualr to the plane containing x_axis and y_temp
+z = np.cross(y_temp, x_axis)
+z_axis = z/np.linalg.norm(z)
+z_axis
+mag_z = np.linalg.norm(z_axis)
+mag_z
+
+# STEP 4 - orthogonalise the system 
+y = np.cross(z_axis,x_axis)
+y_axis = y/np.linalg.norm(y)
+y_axis
+mag_y = np.linalg.norm(y_axis)
+mag_y
+
+# STEP 5 - construct the orientation matrix
+R = np.array((x_axis, y_axis, z_axis))
+R = np.transpose(R)
 
