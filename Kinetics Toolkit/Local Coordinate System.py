@@ -42,7 +42,7 @@ ts.data
 
  
 # ===========================
-# Creating local Coordinate system
+# Creating local Coordinate system at t=0
 # ===========================
 
 # STEP 1 - Define x axis
@@ -62,8 +62,7 @@ distance1_3
 # Distance from 1 to 2 is smaller than the distance from 1 to 3, so choose the vector 1 to 3 to be the x axis
 x_axis =  marker1_3/np.linalg.norm(marker1_3)
 x_axis 
-mag_x = np.linalg.norm(x_axis)
-mag_x
+
 # STEP 2 - Define a support axis to define the plane orientation 
 y_temp = marker1_2 / np.linalg.norm(marker1_2)
 
@@ -82,8 +81,7 @@ mag_y = np.linalg.norm(y_axis)
 mag_y
 
 # STEP 5 - construct the orientation matrix
-R = np.array((x_axis, y_axis, z_axis))
-
+R0 = np.array((x_axis, y_axis, z_axis))
 
 # From kinetics toolkit a transform always has the form 4x4 where the top left 3x3 is the rotation matrix 
 # and the last column is the position of the local coordinate system's origin,
@@ -91,10 +89,38 @@ R = np.array((x_axis, y_axis, z_axis))
 # [R21 R22 R23 Oy]
 # [R31 R32 R33 Oz]
 # [ 0   0   0   1]
+'''
 T = np.array((x_axis, y_axis, z_axis, origin))
 T = np.transpose(T)
 extra_row = [0,0,0,1]
 T = np.append(T, extra_row)
 T
+'''
 
-#ktk.geometry.create_transform_series(x: x_axis | None)
+# ===========================
+# Tracking cluster movement over the time series
+# ===========================
+
+R_all = np.zeros((no_frames, 3, 3))
+t_all = np.zeros((no_frames, 3))
+
+for i in range(no_frames):
+    origin_i = marker_data[i,5,:]
+    marker1_2_i = marker_data[i,4,:] - origin_i
+    marker1_3_i = marker_data[i,6,:] - origin_i
+
+    xax_i = marker1_3_i/np.linalg.norm(marker1_3_i)
+    y_temp_i = marker1_2_i / np.linalg.norm(marker1_2_i)
+    z_i = np.cross(y_temp_i, xax_i)
+    zax_i = z_i/np.linalg.norm(z_i)
+    y_i = np.cross(zax_i, xax_i)
+    yax_i = y_i/np.linalg.norm(y_i)
+
+    R_i = np.vstack((xax_i, yax_i, zax_i))
+
+    R_rel = R0 @ R_i.T
+    t_rel = R0 @ (origin_i - origin)
+
+    R_all[i] = R_rel
+    t_all[i] = t_rel
+
